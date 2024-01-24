@@ -1,0 +1,11 @@
+{
+  "name": "ladybug-mini",
+  "version": "1.0.0",
+  "author": "Federico Grandi <me@endbug.dev>",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "@types/node": "^20.11.0"
+  }
+}
