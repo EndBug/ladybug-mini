@@ -53,7 +53,7 @@ function startRecording(loop = true) {
       })
     })
 
-    if (loop)
+    if (loop && code === 0)
       startRecording()
   })
 }
