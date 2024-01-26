@@ -1,6 +1,7 @@
 import { ChildProcessWithoutNullStreams, spawn } from "child_process";
 import { readdir, unlink } from "fs/promises";
 import { join } from "path";
+import { uploadVideo } from "./telegram";
 
 const { INPUT, VIDEOS_DIR } = process.env;
 
@@ -17,14 +18,20 @@ process.on("SIGTERM", () => {
 });
 
 function startRecording(loop = true) {
-  const fn = `${getDateStr(new Date())}.mp4`;
+  const fn = `${getDateStr(new Date())}.mp4`,
+    fullFn = join(VIDEOS_DIR, fn);
+
+  const clipMinutes = Number(process.env.CLIP_MINUTES) || 15;
+
+  const [hh, mm, ss] = [
+    Math.floor(clipMinutes / 60),
+    Math.floor(clipMinutes % 60),
+    (clipMinutes * 60) % 60,
+  ].map((e) => e.toString().padStart(2, "0"));
 
   child = spawn("sh", [
     "-c",
-    `ffmpeg -i "${INPUT}" -c:v copy -t 00:15:00 -vcodec libx264 "${join(
-      VIDEOS_DIR,
-      fn
-    )}"`,
+    `ffmpeg -i "${INPUT}" -c:v copy -t ${hh}:${mm}:${ss} -vcodec libx264 "${fullFn}"`,
   ]);
 
   child.stdout.on("data", (b) => console.log(b.toString()));
@@ -59,6 +66,8 @@ function startRecording(loop = true) {
           }
         });
     });
+
+    if (code === 0) uploadVideo(fullFn);
 
     if (loop && code === 0) startRecording();
   });

@@ -8,7 +8,9 @@
   "scripts": {
     "start": "bun ./record.ts"
   },
-  "dependencies": {},
+  "dependencies": {
+    "telegraf": "^4.15.3"
+  },
   "devDependencies": {
     "@types/bun": "^1.0.4"
   }
