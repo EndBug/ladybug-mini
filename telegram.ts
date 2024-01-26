@@ -2,10 +2,16 @@ import { Telegraf } from "telegraf";
 
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN);
 
-export function uploadVideo(fn: string) {
-  bot.telegram.sendVideo(process.env.TELEGRAM_CHAT_ID, {
-    source: fn,
-  });
+export function uploadVideo(fn: string, caption: string) {
+  bot.telegram.sendVideo(
+    process.env.TELEGRAM_CHAT_ID,
+    {
+      source: fn,
+    },
+    {
+      caption,
+    }
+  );
 }
 
 bot.launch();

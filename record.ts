@@ -1,6 +1,6 @@
 import { ChildProcessWithoutNullStreams, spawn } from "child_process";
 import { readdir, unlink } from "fs/promises";
-import { join } from "path";
+import { join, parse } from "path";
 import { uploadVideo } from "./telegram";
 
 const { INPUT, VIDEOS_DIR } = process.env;
@@ -56,7 +56,7 @@ function startRecording(loop = true) {
       files
         .filter((f) => f.endsWith(".mp4"))
         .forEach((file) => {
-          const fileDate = parseDate(file.replace(".mp4", ""));
+          const fileDate = parseDate(parse(file).name);
           const diff = Number(now) - Number(fileDate);
 
           new Date().toLocaleDateString("it-IT");
@@ -67,7 +67,7 @@ function startRecording(loop = true) {
         });
     });
 
-    if (code === 0) uploadVideo(fullFn);
+    if (code === 0) uploadVideo(fullFn, parse(fn).name);
 
     if (loop && code === 0) startRecording();
   });
