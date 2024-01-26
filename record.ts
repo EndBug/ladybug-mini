@@ -2,8 +2,7 @@ import { ChildProcessWithoutNullStreams, spawn } from "child_process";
 import { readdir, unlink } from "fs/promises";
 import { join } from "path";
 
-const VIDEOS_DIR = "/home/agvideo/Videos";
-const INPUT = "rtmp://10.0.0.2/live";
+const { INPUT, VIDEOS_DIR } = process.env;
 
 let child: ChildProcessWithoutNullStreams;
 

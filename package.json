@@ -5,6 +5,9 @@
   "license": "MIT",
   "type": "module",
   "private": true,
+  "scripts": {
+    "start": "bun ./record.ts"
+  },
   "dependencies": {},
   "devDependencies": {
     "@types/bun": "^1.0.4"
